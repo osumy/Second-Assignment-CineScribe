@@ -12,7 +12,7 @@ public class Movie {
     public static final String API_KEY = "55eb326";
 
     String movieTitle;
-    int year;
+    String year;
     String releaseDate;
     String rated;
     String runtime; // Duration
@@ -32,14 +32,13 @@ public class Movie {
         this.rating = rating;
         this.imdbVotes = ImdbVotes;
         this.movieTitle = this.releaseDate = this.rated = "";
-        this.runtime = this.director = this.plot = this.awards = "";
-        this.year = 0;
+        this.year = this.runtime = this.director = this.plot = this.awards = "";
         this.writer = this.genre = this.language = this.country = new ArrayList<>();
     }
     public Movie(){
         this.movieTitle = this.releaseDate = this.rated = "";
-        this.runtime = this.director = this.plot = this.awards = this.rating = "";
-        this.imdbVotes = this.year = 0;
+        this.year = this.runtime = this.director = this.plot = this.awards = this.rating = "";
+        this.imdbVotes = 0;
         this.writer = this.actorsList = this.genre = this.language = this.country = new ArrayList<>();
     }
 
@@ -69,21 +68,26 @@ public class Movie {
     }
 
     public void setAll(String movieInfoJson){
-        movieTitle = getMovieTitleViaApi(movieInfoJson);
-        year = getMovieYearViaApi(movieInfoJson);
-        releaseDate = getMovieReleaseDateViaApi(movieInfoJson);
-        rated = getMovieRatedViaApi(movieInfoJson);
-        runtime = getMovieRuntimeViaApi(movieInfoJson);
-        genre = getMovieGenreViaApi(movieInfoJson);
-        director = getMovieDirectorViaApi(movieInfoJson);
-        writer = getMovieWriterViaApi(movieInfoJson);
-        actorsList = getActorListViaApi(movieInfoJson);
-        plot = getMoviePlotViaApi(movieInfoJson);
-        language = getMovieLanguageViaApi(movieInfoJson);
-        country = getMovieCountryViaApi(movieInfoJson);
-        awards = getMovieAwardsViaApi(movieInfoJson);
-        rating = getRatingViaApi(movieInfoJson);
-        imdbVotes = getImdbVotesViaApi(movieInfoJson);
+        try {
+            movieTitle = getMovieTitleViaApi(movieInfoJson);
+            year = getMovieYearViaApi(movieInfoJson);
+            releaseDate = getMovieReleaseDateViaApi(movieInfoJson);
+            rated = getMovieRatedViaApi(movieInfoJson);
+            runtime = getMovieRuntimeViaApi(movieInfoJson);
+            genre = getMovieGenreViaApi(movieInfoJson);
+            director = getMovieDirectorViaApi(movieInfoJson);
+            writer = getMovieWriterViaApi(movieInfoJson);
+            actorsList = getActorListViaApi(movieInfoJson);
+            plot = getMoviePlotViaApi(movieInfoJson);
+            language = getMovieLanguageViaApi(movieInfoJson);
+            country = getMovieCountryViaApi(movieInfoJson);
+            awards = getMovieAwardsViaApi(movieInfoJson);
+            rating = getRatingViaApi(movieInfoJson);
+            imdbVotes = getImdbVotesViaApi(movieInfoJson);
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public boolean errorCheck(String movieInfoJson){
@@ -96,9 +100,9 @@ public class Movie {
         return obj.getString("Title");
     }
 
-    public int getMovieYearViaApi(String movieInfoJson){
+    public String getMovieYearViaApi(String movieInfoJson){
         JSONObject obj = new JSONObject(movieInfoJson);
-        return obj.getInt("Year");
+        return obj.getString("Year");
     }
 
     public String getMovieReleaseDateViaApi(String movieInfoJson){

@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Scanner;
 
 public class Main {
@@ -101,9 +102,90 @@ public class Main {
         if (str.equals("b")){
             return;
         }
+
+        Actors actor = new Actors();
+        String actorData = actor.getActorData(movie.actorsList.get(Integer.parseInt(str)-1));
+
+        if (actorData == null){
+            System.out.println("Error: Could not connect to api!");
+            return;
+        }
+        else if (!actor.errorCheck(actorData)) {
+            System.out.println("Error: Actor not found!");
+            return;
+        }
+
+        actor.setAll(actorData);
+        if (!actor.isAlive) {
+            String string = actor.getDateOfDeathViaApi(actorData);
+        }
+
+        System.out.println("*************************");
+        System.out.print("Name: " + actor.name);
+        if (actor.isAlive)
+            System.out.print(" (Alive)\n");
+        else
+            System.out.print(" (Passed Away)\n");
+        System.out.println("Gender: " + actor.gender);
+        System.out.println("Nationality: " + actor.nationality);
+        System.out.println("Net Worth: " + new BigDecimal(Double.parseDouble(actor.netWorth)).toPlainString());
+        System.out.print("Occupation: ");
+        for (int i = 0; i < actor.occupation.size(); i++){
+            if (i > 0)
+                System.out.print(", ");
+            System.out.print(actor.occupation.get(i));
+        }
+        System.out.print("\n");
+        if (!actor.isAlive)
+            System.out.println("Date Of Death: " + actor.dateOfDeath + "\n");
+        System.out.println("(Enter any character to return to the main menu.)");
+        System.out.print(">>");
+        sc.next();
     }
 
     public static void actorMenu(){
-        Actors actors = new Actors("",true);
+        Actors actor = new Actors();
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("*************************");
+        System.out.print(">> Enter the Actor Name: ");
+        String actorName = sc.nextLine();
+        String actorData = actor.getActorData(actorName);
+
+        if (actorData == null){
+            System.out.println("Error: Could not connect to api!");
+            return;
+        }
+        else if (!actor.errorCheck(actorData)) {
+            System.out.println("Error: Actor not found!");
+            return;
+        }
+
+        actor.setAll(actorData);
+        if (!actor.isAlive) {
+            String str = actor.getDateOfDeathViaApi(actorData);
+        }
+
+        System.out.println("*************************");
+        System.out.print("Name: " + actor.name);
+        if (actor.isAlive)
+            System.out.print(" (Alive)\n");
+        else
+            System.out.print(" (Passed Away)\n");
+        System.out.println("Gender: " + actor.gender);
+        System.out.println("Nationality: " + actor.nationality);
+        System.out.println("Net Worth: " + new BigDecimal(Double.parseDouble(actor.netWorth)).toPlainString());
+        System.out.print("Occupation: ");
+        for (int i = 0; i < actor.occupation.size(); i++){
+            if (i > 0)
+                System.out.print(", ");
+            System.out.print(actor.occupation.get(i));
+        }
+        System.out.print("\n");
+        if (!actor.isAlive)
+            System.out.println("Date Of Death: " + actor.dateOfDeath + "\n");
+        System.out.println("(Enter any character to return to the main menu.)");
+        System.out.print(">>");
+        sc.next();
     }
 }

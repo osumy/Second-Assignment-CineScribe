@@ -1,17 +1,36 @@
+import org.json.JSONArray;
+import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.HttpURLConnection;
+import java.util.ArrayList;
+
 public class Actors {
-    public static final String API_KEY = "Your API_KEY";   // TODO --> add your api key about Actors here
+    public static final String API_KEY = "6IWaNUdpksEOzgixmbXwqg==53K2K85E8nB3TfaK";
+
+    String name;
     String netWorth;
+    String gender;
+    String nationality;
+    ArrayList<String> occupation;
     Boolean isAlive;
+    String dateOfDeath;
 
     public Actors(String netWorth, boolean isAlive){
-        //TODO --> (Write a proper constructor using the get_from_api functions)
+        this.netWorth = netWorth;
+        this.isAlive = isAlive;
+        this.dateOfDeath = this.name = this.gender = this.nationality = "";
+        this.occupation = new ArrayList<>();
     }
-    @SuppressWarnings({"deprecation"})
+
+    public Actors(){
+        this.dateOfDeath = this.netWorth = this.name = this.gender = this.nationality = "";
+        this.isAlive = false;
+        this.occupation = new ArrayList<>();
+    }
+
     /**
      * Retrieves data for the specified actor.
      * @param name for which Actor should be retrieved
@@ -20,10 +39,9 @@ public class Actors {
     public String getActorData(String name) {
         try {
             URL url = new URL("https://api.api-ninjas.com/v1/celebrity?name="+
-                    name.replace(" ", "+")+"&apikey="+API_KEY);
+                    name.replace(" ", "+"));
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("X-Api-Key", API_KEY);
-            System.out.println(connection);
             if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String inputLine;
@@ -38,27 +56,76 @@ public class Actors {
             } else {
                 return "Error: " + connection.getResponseCode() + " " + connection.getResponseMessage();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        }
+        catch (IOException e) {
             return null;
         }
     }
+
+    public void setAll(String actorsInfoJson){
+        try {
+            name = getActorNameViaApi(actorsInfoJson);
+            netWorth = Double.toString(getNetWorthViaApi(actorsInfoJson));
+            gender = getActorGenderViaApi(actorsInfoJson);
+            nationality = getActorNationalityViaApi(actorsInfoJson);
+            occupation = getActorOccupationViaApi(actorsInfoJson);
+            isAlive = isAlive(actorsInfoJson);
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean errorCheck(String actorsInfoJson){
+        return !actorsInfoJson.equals("[]");
+    }
+
+    public String getActorNameViaApi(String actorsInfoJson){
+        JSONArray jArr = new JSONArray(actorsInfoJson);
+        JSONObject obj = jArr.getJSONObject(0);
+        return obj.getString("name");
+    }
+
     public double getNetWorthViaApi(String actorsInfoJson){
-        //TODO --> (This function must return the "NetWorth")
-        double result = 0.0;
-        return result;
+        JSONArray jArr = new JSONArray(actorsInfoJson);
+        JSONObject obj = jArr.getJSONObject(0);
+        return obj.getDouble("net_worth");
+    }
+
+    public String getActorGenderViaApi(String actorsInfoJson){
+        JSONArray jArr = new JSONArray(actorsInfoJson);
+        JSONObject obj = jArr.getJSONObject(0);
+        return obj.getString("gender");
+    }
+
+    public String getActorNationalityViaApi(String actorsInfoJson){
+        JSONArray jArr = new JSONArray(actorsInfoJson);
+        JSONObject obj = jArr.getJSONObject(0);
+        return obj.getString("nationality");
+    }
+
+    public ArrayList<String> getActorOccupationViaApi(String actorsInfoJson){
+        JSONArray jArr = new JSONArray(actorsInfoJson);
+        JSONObject obj = jArr.getJSONObject(0);
+        JSONArray jArrOccupations = obj.getJSONArray("occupation");
+        ArrayList<String> occupationsList = new ArrayList<>();
+        for (Object object : jArrOccupations){
+            occupationsList.add(object.toString().replaceAll("_", " "));
+        }
+        return occupationsList;
     }
 
     public boolean isAlive(String actorsInfoJson){
-        //TODO --> (If your chosen actor is alive it must return true otherwise it must return false)
-        boolean statues = false;
-        return statues;
+        JSONArray jArr = new JSONArray(actorsInfoJson);
+        JSONObject obj = jArr.getJSONObject(0);
+        return obj.getBoolean("is_alive");
     }
 
     public String getDateOfDeathViaApi(String actorsInfoJson){
-        //TODO --> (If your chosen actor is deceased it must return the date of death)  -->
-        String date = "";
-        return date;
+        JSONArray jArr = new JSONArray(actorsInfoJson);
+        JSONObject obj = jArr.getJSONObject(0);
+        this.dateOfDeath = obj.getString("death");
+        return this.dateOfDeath;
     }
 
 }
