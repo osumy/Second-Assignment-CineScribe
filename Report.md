@@ -12,53 +12,37 @@ An in-depth paragraph about your project and overview of use.
 
 ### Dependencies
 
-* Describe any prerequisites, libraries, OS version, etc., needed before installing program.
-* ex. Windows 10
+* Java SDK Runtime Environment 8.0 or later
+
+To make sure it is installed, enter the following command in the terminal.
+```
+java --version
+```
 
 ### Installing
 
-* How/where to download your program
-* Any modifications needed to be made to files/folders
+* You can download program executable .jar file in the release page of this project.
+* You can clone this repository to access both .java source files and .jar file.
 
 ### Executing program
 
-* How to run the program
-* Step-by-step bullets
+* Open Terminal in directory has .jar file.
+* Run the program using the following command:
 ```
-code blocks for commands
+java -jar CineScribe-1.0.jar
 ```
 
 ## Help
-
-Any advise for common problems or issues.
-```
-command to run if program contains helper info
-```
+* Ensure a stable internet connection.
+* Verify the correctness of the movie or actor name entered.
+* You could contact the authors down below for more help.
 
 ## Authors
+osumyy
 
-Contributors names and contact info
-
-ex. Dominique Pizzie  
-ex. [@DomPizzie](https://twitter.com/dompizzie)
+[Contact on Telegram](https://t.me/osumyy)
 
 ## Version History
 
-* 0.2
-    * Various bug fixes and optimizations
-    * See [commit change]() or See [release history]()
-* 0.1
+* 1.0
     * Initial Release
-
-## License
-
-This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details
-
-## Acknowledgments
-
-Inspiration, code snippets, etc.
-* [awesome-readme](https://github.com/matiassingers/awesome-readme)
-* [PurpleBooth](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
-* [dbader](https://github.com/dbader/readme-template)
-* [zenorocha](https://gist.github.com/zenorocha/4526327)
-* [fvcproductions](https://gist.github.com/fvcproductions/1bfc2d4aecb01a834b46)
