@@ -1,6 +1,8 @@
-# Project Title
+# CineScribe
 
-Simple overview of use/purpose.
+a terminal-based java program to search and  to provide information about movies and actors.
+
+It fetches data from both the IMDB and Actor API to provide details such as movie plot, ratings, actors, director, box office, net worth of actors, etc.
 
 ## Description
 
